@@ -16,6 +16,13 @@ def mean_absolute_percentage_error(y_true, y_pred):
     return 100. * K.mean(diff, axis=-1)
 
 
+def mean_absolute_scaled_error(y_true, y_pred):
+    '''Non-seasonal
+    '''
+    e_forecast = y_true - y_pred
+    return K.mean( K.abs(e_forecast) / mean_absolute_error(y_true[1:len(y_true)], y_true[0:-1]) )
+
+
 def mean_squared_logarithmic_error(y_true, y_pred):
     first_log = K.log(K.clip(y_pred, K.epsilon(), np.inf) + 1.)
     second_log = K.log(K.clip(y_true, K.epsilon(), np.inf) + 1.)
@@ -62,6 +69,7 @@ def cosine_proximity(y_true, y_pred):
 mse = MSE = mean_squared_error
 mae = MAE = mean_absolute_error
 mape = MAPE = mean_absolute_percentage_error
+mase = MASE = mean_absolute_scaled_error
 msle = MSLE = mean_squared_logarithmic_error
 cosine = cosine_proximity
 
