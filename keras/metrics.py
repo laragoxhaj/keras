@@ -30,10 +30,11 @@ def mean_absolute_percentage_error(y_true, y_pred):
 
 
 def mean_absolute_scaled_error(y_true, y_pred):
-    #Non-seasonal
+    '''Non-seasonal
+    '''
     e_forecast = y_true - y_pred
-    mae = K.mean(K.abs( y_true[1:y_true.shape[0]] - y_true[0:-1]) )
-    return K.mean( K.abs(e_forecast) / mae )
+    mae = K.mean(K.abs( y_true[[range(1,y_true.ndim)]] - y_true[[range(y_true.ndim-1)]] ))
+    return K.mean( K.abs(e_forecast) / K.clip(mae, K.epsilon(), np.inf) )
 
 
 def mean_squared_logarithmic_error(y_true, y_pred):
